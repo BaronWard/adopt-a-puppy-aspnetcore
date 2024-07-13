@@ -1,0 +1,6 @@
+@adopt_a_puppy_aspnetcore_HostAddress = http://localhost:5068
+
+GET {{adopt_a_puppy_aspnetcore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
