@@ -1,8 +1,6 @@
 ﻿using adopt_a_puppy_aspnetcore.Models;
-using adopt_a_puppy_aspnetcore.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
 
 namespace adopt_a_puppy_aspnetcore.Controllers
 {
@@ -10,13 +8,6 @@ namespace adopt_a_puppy_aspnetcore.Controllers
     [ApiController]
     public class PuppiesController : ControllerBase
     {
-        private readonly IPuppyRepository _puppyRepository;
-
-        public PuppiesController(IPuppyRepository puppyRepository)
-        {
-            _puppyRepository = puppyRepository;
-        }
-
         [HttpPost(Name = "AddPuppy")]
         public Task<Puppy> AddPuppy(Puppy puppy)
         {
@@ -26,15 +17,8 @@ namespace adopt_a_puppy_aspnetcore.Controllers
         [HttpGet(Name = "GetAllPuppies")]
         public IEnumerable<Puppy> GetAll()
         {
-            var puppies = _puppyRepository.GetAllPuppies();
+            var puppies = new List<Puppy>();
             return puppies;
-        }
-
-        [HttpGet("{id}")]
-        public Task<Puppy> GetPuppyDetails(int id)
-        {
-            var puppy = _puppyRepository.GetPuppy(id);
-            return Task.FromResult(puppy);
         }
 
         [HttpPut(Name = "UpdatePuppyDetails")]
@@ -49,10 +33,10 @@ namespace adopt_a_puppy_aspnetcore.Controllers
             return Task.FromResult(true);
         }
 
-        [HttpGet("filterOptions")]
-        public IEnumerable<Puppy> FilterPuppies([FromQuery]string? breed, int? age, string? size, string? gender)
+        [HttpPost(Name = "FilterPuppies")]
+        public IEnumerable<Puppy> FilterPuppies()
         {
-            var filteredPuppies = _puppyRepository.FilterPuppies(breed, age, size, gender); 
+            var filteredPuppies = new List<Puppy>();
             return filteredPuppies;
         }
     }

@@ -1,27 +1,15 @@
 ﻿using adopt_a_puppy_aspnetcore.Models;
 using adopt_a_puppy_aspnetcore.Repositories.Interfaces;
-using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 namespace adopt_a_puppy_aspnetcore.Repositories
 {
     public class PuppyRepository : IPuppyRepository
     {
-        private readonly List<Puppy> _puppies;
-        public PuppyRepository() {
-            //Get Data from JSON to simulate DbConnection
-            var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Puppies.json" );
-            var jsonData = File.ReadAllText(jsonFilePath);
-            _puppies = JsonConvert.DeserializeObject<List<Puppy>>(jsonData) ?? [];
-        }
+        public PuppyRepository() { }
 
         public List<Puppy> GetAllPuppies() {
-            return _puppies;
-        }
-
-        public Puppy GetPuppy(int id)
-        {
-            return _puppies.FirstOrDefault(puppy => puppy.Id == id);
+            var puppies = new List<Puppy>();
+            return puppies;
         }
         public Task AddPuppy(Puppy puppy)
         {
@@ -35,33 +23,9 @@ namespace adopt_a_puppy_aspnetcore.Repositories
         {
             return Task.CompletedTask;
         }
-        public List<Puppy> FilterPuppies(string? breed, int? age, string? size, string? gender)
+        public List<Puppy> FilterPuppies()
         {
-            var query = _puppies.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(breed))
-            {
-                query = query.Where(puppy => puppy.Breed == breed);
-            }
-
-            if (age.HasValue)
-            {
-                if (int.IsPositive((int)age))
-                {
-                    query = query.Where(puppy => puppy.Age == age);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(size))
-            {
-                query = query.Where(puppy => puppy.Size == size);
-            }
-
-            if (!string.IsNullOrEmpty(gender))
-            {
-                query = query.Where(puppy => puppy.Gender == gender);
-            }
-
-            return query.ToList();
+            return new List<Puppy>();
         }
     }
 }
