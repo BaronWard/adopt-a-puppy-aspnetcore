@@ -1,8 +1,27 @@
+using adopt_a_puppy_aspnetcore.Repositories;
+using adopt_a_puppy_aspnetcore.Repositories.Interfaces;
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200"
+                              //Add your localhost url if it is different from above
+                              );
+                      });
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//Add Repository Services
+builder.Services.AddScoped<IPuppyRepository, PuppyRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
