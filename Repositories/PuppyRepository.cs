@@ -40,7 +40,7 @@ namespace adopt_a_puppy_aspnetcore.Repositories
             var query = _puppies.AsQueryable();
             if (!string.IsNullOrWhiteSpace(breed))
             {
-                query = query.Where(puppy => puppy.Breed == breed);
+                query = query.Where(puppy => puppy.Breed.ToLower() == breed.Trim().ToLower());
             }
 
             if (age.HasValue)
