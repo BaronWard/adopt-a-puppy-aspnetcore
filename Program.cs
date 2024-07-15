@@ -10,7 +10,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:4200"
+                          policy.WithOrigins("http://localhost:4200",
+                              "http://adopt-a-puppy-testapp.s3-website-ap-southeast-1.amazonaws.com"
                               //Add your localhost url if it is different from above
                               );
                       });
